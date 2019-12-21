@@ -1233,6 +1233,30 @@ RUN set -xe; php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
 
 #
 #--------------------------------------------------------------------------
+# CUSTOM by Nathan
+#--------------------------------------------------------------------------
+#
+
+USER root
+COPY dotFiles /root/
+RUN echo "" >> ~/.bashrc && \
+    echo "# Load Custom .bashrc" >> ~/.bashrc && \
+    echo "source ~/.bash_aliases" >> ~/.bashrc && \
+	echo "" >> ~/.bashrc
+
+USER laradock
+COPY dotFiles /home/laradock/
+RUN echo "" >> ~/.bashrc && \
+    echo "# Load Custom .bashrc" >> ~/.bashrc && \
+    echo "source ~/.bash_aliases" >> ~/.bashrc && \
+	echo "" >> ~/.bashrc
+
+USER root
+RUN apt-get update && apt-get install -y tree && \
+    apt-get install -y graphviz
+
+#
+#--------------------------------------------------------------------------
 # Final Touch
 #--------------------------------------------------------------------------
 #
